@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>extend手工制造</title>
+    </head>
+    <body>
+
+    </body>
+    <script>
+        /*
+        void function (global) {
+            console.log("hello")
+            var extend,
+                _extend,
+                _isObject;
+            _isObject = function (obj) {
+                // console.log(typeof obj);
+                // console.log(obj.toString());
+                // return obj.toString() === '[object Object]';
+                return Object.prototype.toString.call(obj) === '[object Object]';
+            }
+            _extend = function self(destination,source) {
+                for (var property in source) {
+                    if (source.hasOwnProperty(property)) {
+                        // 如果对象的属性是对象，则进行递归
+                         if (_isObject(source[property])) {
+                             // 若destination没有property，赋值空对象
+                             if(!destination.hasOwnProperty(property)){
+                                //  给外层先添加一个属性，当发生递归时，再进入该对象属性的内部进行重复如此的操作
+                                 destination[property] = {};
+                             }
+                             // 对destination[property]不是对象，赋值空对象
+                             if (!_isObject(destination[property])) {
+                                 destination[property] = {};
+                             }
+                            //  递归
+                            self(destination[property],source[property]);
+                        }else {
+                            // 不是对象的话，直接创建属性并复制
+                            destination[property] = source[property];
+                        }
+                    }
+
+                }
+            }
+            extend = function () {
+                var arr = arguments,
+                    result = {},
+                    i;
+                if (!arr.length) {
+                    return {};
+                }
+                for (i = 0; i < arr.length; i++) {
+                    if (_isObject(arr[i])) {
+                        _extend(result,arr[i]);
+                    }
+                }
+                console.log(arr[0]);
+                arr[0] = result;
+                console.log(arr[0]);
+                return result;
+            }
+            global.extend = extend;
+        }(window);
+        var obj1 = {
+            name: "jinchao",
+            printName: function () {
+                console.log(this.name);
+            }
+        }
+        var obj2 = {
+            age: 18,
+            aObj: {
+                anotherObj: {
+                    name: "hello"
+                }
+            }
+        }
+
+        var obj = extend(obj1,obj2);
+        console.log(obj);
+        */
+        // 这样似乎可以了。但是貌似有一个小问题，我们这里是按照参数顺序从左到右依次执行的，
+        // 但是其实若是最后一个参数有的属性，前面的参数上的该属性都不需要再扩展了。
+        // 其实前面的所有参数都是将自己身上有的属性而最后一个参数没有的属性补到最后一个参数上。
+        // 既如此，是不是从参数列表的右侧开始扩展更好一些。
+        void function (global) {
+            var extend,
+                _extend,
+                _isObject;
+
+            _isObject = function(o){
+                return Object.prototype.toString.call(o) === '[object Object]';
+            }
+            _extend = function self(destination,source) {
+                var property;
+                for (property in destination) {
+                    if (destination.hasOwnProperty(property)) {
+                        // 若destination[property]和sourc[property]都是对象，则递归
+                        // 其实意思是两个对象存在相同的属性对象时进行递归，因为如果不存在相同的属性，直接赋值即可
+                        if (_isObject(destination[property]) && _isObject(source[property])) {
+                            self(destination[property], source[property]);
+                        };
+
+                        // 若sourc[property]已存在，则跳过
+                        if (source.hasOwnProperty(property)) {
+                            continue;
+                        } else {
+                            source[property] = destination[property];
+                        }
+                    }
+                }
+            }
+        }(window)
+    </script>
+</html>
