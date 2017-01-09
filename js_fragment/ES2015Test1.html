@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ES2015Test</title>
+    </head>
+    <body>
+
+    </body>
+    <script>
+        // for of 语句
+        const arr = [1,2,3];
+        for (const item of arr) {
+            console.log(item);
+        }
+
+        // 箭头函数
+        const fn = foo => `${foo} world`;
+        console.log(fn("hello"));
+
+        let array = ['a','bc','def','ghij'];
+        array = array.filter(item => item.length >= 2);
+        console.log(array);
+
+        let arrayTwo = ['a','bc','def','ghij'];
+        arrayTwo = arrayTwo.sort((a,b) => a.length < b.length);
+        console.log(arrayTwo);
+
+        // 多行箭头函数
+        let add = (num1 , num2) => {
+            return num1 + num2;
+        }
+        console.log(add(1,4));
+
+        // 无参箭头函数
+        const arr2 = [1,3,4];
+        const squares = arr2.map(x => x*x);
+        console.log(squares);
+
+        let print = (name) => {
+            console.log(`hello,${name}`);
+        }
+        print("jinchao");
+
+        let myArr = [23,45,56];
+        let nums2 = myArr.map((num)=>num * 2);
+        console.log(nums2);
+
+    //    this 穿透
+        const obj = {
+            hello: "world",
+            foo(){
+                const bar = ()=> this.hello;
+                // function otherBar() {
+                //     return this.hello;
+                // }
+                // return otherBar; //undefined
+                return bar;
+            }
+        }
+        console.log(obj.foo()());
+        let myObj = {
+            name: "jinchao",
+            print: ()=> this.name,
+            info: {
+                age: 18,
+                xingbie: "男"
+            }
+        }
+        let freezeObj = Object.freeze(myObj);
+        freezeObj.name = "world";
+        freezeObj.info.age = 20;
+        console.log(freezeObj);
+
+        const a = {
+            init() {
+                this.bar = () => this.dam
+            },
+            dam: 'hei',
+            foo() {
+                return this.dam
+            }
+        }
+        const b = {
+            dam: 'ha'
+        }
+        a.init();
+        console.log(a.foo());
+        console.log(a.bar());
+        console.log(a.foo.bind(b).call(a));
+
+        function foo2() {
+            console.log(this.name);
+        }
+        foo2();
+        let person = {
+            init() {
+                this.name = 'jinchao';
+                this.age = 18;
+            }
+        }
+        person.init();
+        var func = foo2.bind(person);
+        func();
+
+        var person1 = {
+            name: 'jinchao',
+            print: function () {
+                console.log(`${this}:hello ${this.name}`);
+            }
+        }
+        var person2 = {
+            name: 'jiwei'
+        }
+        person1.print();
+
+        person1.print.call(person2);
+        person1.print.apply(person2);
+        person1.print.bind(person2)();
+
+        let sayHello = name => `hello ${name}`;
+        console.log(sayHello('jinchao'));
+
+        let printPerson = (name,age,sex) => `name: ${name},age:${age},sex:${sex}`;
+        console.log(printPerson('jinchao',18,'男'));
+
+        let numsAdd = (num1 , num2) => {
+            const addNum = num1 + num2;
+            return addNum * addNum;
+        }
+        console.log(numsAdd(1,4));
+
+        let helloWorld = ()=>console.log('hello,world');
+        helloWorld();
+
+        const aObj = {
+            name: 'jinchao',
+            foo(){
+                const bar = () => this.name;
+                return bar;
+            }
+        };
+        const hhhh = aObj.foo();
+        console.log(aObj.foo()());
+    </script>
+</html>

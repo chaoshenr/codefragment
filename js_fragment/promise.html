@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>学习promise</title>
+    </head>
+    <body>
+
+    </body>
+    <script>
+        let print = (name) => {
+            console.log(`hello,${name}`);
+        }
+        print("jinchao");
+        var promise = new Promise(function (resolve,reject) {
+            var isMyname = '';
+            setTimeout(function () {
+                isMyname = 'jinchao';
+                if (isMyname == "jinchao") {
+                    resolve(isMyname);
+                }else {
+                    reject("不是我的名字");
+                }
+            },5000);
+
+        });
+        var callBack = {
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        }
+        promise.then(
+            callBack.success,
+            callBack.error
+        )
+    </script>
+</html>

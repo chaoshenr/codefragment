@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>自定义集合类</title>
+    </head>
+    <body>
+
+    </body>
+    <script>
+        // 集合构造函数
+        function Set() {
+            this.values = {}; //集合数据存储的对象
+            this.nums = 0; //集合中值的个数
+            // 这里为什么要使用 apply 呢？？？
+            this.add.apply(this, arguments); //把所有参数都添加进这个集合
+        }
+        // 将每个参数都添加到集合中
+        Set.prototype.add = function () {
+            for (var i = 0; i < arguments.length; i++) {
+                var value = arguments[i];
+                var str = String(value.toString()); // 把参数转化为字符串
+                // 如果不在集合中
+                if (!this.values.hasOwnProperty(str)) {
+                    this.values[str] = value;//将字符串和值对应起来
+                    this.nums++;
+                }
+            }
+            return this;
+        }
+        var setDemo = new Set();
+        setDemo.add({name:"jinchao"});
+        console.log(setDemo);
+
+    </script>
+</html>
